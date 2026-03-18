@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/reply/command")
@@ -24,5 +26,11 @@ public class ReplyCommandController {
     public ResponseEntity get(@PathVariable Long idx) {
         Reply reply = repository.findById(idx).orElseThrow();
         return ResponseEntity.ok(reply);
+    }
+
+    @GetMapping("/list/{boardIdx}")
+    public ResponseEntity list(@PathVariable Long boardIdx) {
+        List<Reply> result = repository.findByBoardIdx(boardIdx);
+        return ResponseEntity.ok(result);
     }
 }
